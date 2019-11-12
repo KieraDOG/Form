@@ -10,10 +10,38 @@ const HTMLInput = styled.input`
   border: 1px solid rgb(238, 238, 238);
 `;
 
+const Error = styled.p`
+  color: red;
+`;
+
 export default class Input extends React.Component {
+  getValidationMessage() {
+    const { validation } = this.props;
+    const { validator } = validation;
+
+    let message;
+
+    if (validator === 'isNotEmpty') {
+      const valid = !!this.props.value;
+
+      if (!valid) {
+        ({ message } = validation);
+      }
+    }
+
+    return message;
+  };
+
   render() {
+    const validationMessage = this.getValidationMessage();
+
     return (
-      <HTMLInput {...this.props} />
+      <div>
+        <HTMLInput {...this.props} />
+        {validationMessage && (
+          <Error>{validationMessage}</Error>
+        )}
+      </div>
     );
   }
 }

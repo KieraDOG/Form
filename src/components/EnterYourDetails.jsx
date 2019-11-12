@@ -17,26 +17,50 @@ export default class EnterYourDetails extends React.Component {
         name: {
           label: 'Name',
           value: '',
+          validation: {
+            validator: 'isNotEmpty',
+            message: 'Please input your name',
+          },
         },
         email: {
           label: 'Email',
           value: '',
+          validation: {
+            validator: 'isNotEmpty',
+            message: 'Please input your email',
+          },
         },
         confirmEmail: {
           label: 'Confirm Email',
           value: '',
+          validation: {
+            validator: 'isNotEmpty',
+            message: 'Please input your confirmEmail',
+          },
         },
         phoneNumber: {
           label: 'Phone Number',
           value: '',
+          validation: {
+            validator: 'isNotEmpty',
+            message: 'Please input your phoneNumber',
+          },
         },
         address: {
           label: 'Address',
           value: '',
+          validation: {
+            validator: 'isNotEmpty',
+            message: 'Please input your address',
+          },
         },
         postcode: {
           label: 'Postcode',
           value: '',
+          validation: {
+            validator: 'isNotEmpty',
+            message: 'Please input your postcode',
+          },
         },
       }
     };
@@ -70,13 +94,14 @@ export default class EnterYourDetails extends React.Component {
         <h2>Please input your details</h2>
         <Layout>
           {Object.keys(formData).map((key) => {
-            const { label, value } = formData[key];
+            const { label, value, validation } = formData[key];
 
             return (
               <Input 
                 key={key}
                 placeholder={label}
                 value={value}
+                validation={validation}
                 onChange={this.handleInputChange(key)}
               />
             )

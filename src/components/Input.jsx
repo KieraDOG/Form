@@ -15,6 +15,14 @@ const Error = styled.p`
 `;
 
 export default class Input extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dirty: false,
+    };
+  }
+
   getValidationMessage() {
     const { validation } = this.props;
     const { validator } = validation;
@@ -33,12 +41,23 @@ export default class Input extends React.Component {
   };
 
   render() {
+    const { dirty } = this.state;
+
     const validationMessage = this.getValidationMessage();
 
     return (
       <div>
-        <HTMLInput {...this.props} />
-        {validationMessage && (
+        <HTMLInput 
+          {...this.props} 
+          onChange={(event) => {
+            this.setState({
+              dirty: true,
+            });
+
+            this.props.onChange(event);
+          }}
+        />
+        {dirty && validationMessage && (
           <Error>{validationMessage}</Error>
         )}
       </div>

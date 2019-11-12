@@ -23,8 +23,7 @@ export default class Input extends React.Component {
     };
   }
 
-  getValidationMessage() {
-    const { validation } = this.props;
+  getValidationMessage(validation) {
     const { validator } = validation;
 
     let message;
@@ -40,10 +39,19 @@ export default class Input extends React.Component {
     return message;
   };
 
+  getValidationMessageFromValidations() {
+    const { validations } = this.props;
+
+    const validationWithMessage = validations.find((validation) => !!this.getValidationMessage(validation) );
+
+    return validationWithMessage && validationWithMessage.message;
+  }
+
+
   render() {
     const { dirty } = this.state;
 
-    const validationMessage = this.getValidationMessage();
+    const validationMessage = this.getValidationMessageFromValidations();
 
     return (
       <div>

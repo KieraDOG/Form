@@ -48,22 +48,26 @@ export default class EnterYourDetails extends React.Component {
         },
       }
     };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange(event, key) {
-    const { target: { value } } = event;
+  handleInputChange(key) {
+    return (event) => {
+      const { target: { value } } = event;
 
-    this.setState((prevState) => {
-      return {
-        formData: {
-          ...prevState.formData,
-          [key]: {
-            ...prevState.formData[key],
-            value,
+      this.setState((prevState) => {
+        return {
+          formData: {
+            ...prevState.formData,
+            [key]: {
+              ...prevState.formData[key],
+              value,
+            },
           },
-        },
-      };
-    });
+        };
+      });
+    };
   }
 
   render() {
@@ -81,7 +85,7 @@ export default class EnterYourDetails extends React.Component {
                 key={key}
                 placeholder={label}
                 value={value}
-                onChange={(event) => this.handleInputChange(event, key)}
+                onChange={this.handleInputChange(key)}
               />
             )
           })}

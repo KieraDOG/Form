@@ -28,6 +28,9 @@ export default class EnterYourDetails extends React.Component {
           validations: [{
             validator: 'isNotEmpty',
             message: 'Please input your email',
+          }, {
+            validator: 'isEmail',
+            message: 'Please input a valid email',
           }],
         },
         confirmEmail: {

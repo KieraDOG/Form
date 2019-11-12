@@ -24,12 +24,22 @@ export default class Input extends React.Component {
   }
 
   getValidationMessage(validation) {
+    const { value } = this.props;
     const { validator } = validation;
 
     let message;
 
     if (validator === 'isNotEmpty') {
-      const valid = !!this.props.value;
+      const valid = !!value;
+
+      if (!valid) {
+        ({ message } = validation);
+      }
+    }
+
+    if (validator === 'isEmail') {
+      const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+      const valid = EMAIL_REGEX.test(value);
 
       if (!valid) {
         ({ message } = validation);

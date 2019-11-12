@@ -30,6 +30,14 @@ export default class EnterYourDetails extends React.Component {
     };
   }
 
+  handleInputChange(event, key) {
+    const { target: { value } } = event;
+
+    this.setState({
+      [key]: value,
+    });
+  }
+
   render() {
     return (
       <>
@@ -37,44 +45,32 @@ export default class EnterYourDetails extends React.Component {
         <Layout>
           <Input
             placeholder="Name" 
-            onChange={({ target: { value } }) => this.setState({
-              name: value,
-            })} 
+            onChange={(event) => this.handleInputChange(event, 'name')}
             value={this.state.name} 
           />
           <Input
             placeholder="Email" 
-            onChange={({ target: { value } }) => this.setState({
-              email: value,
-            })} 
+            onChange={(event) => this.handleInputChange(event, 'email')}
             value={this.state.email} 
           />
           <Input
             placeholder="Confirm Email" 
-            onChange={({ target: { value } }) => this.setState({
-              confirmEmail: value,
-            })} 
+            onChange={(event) => this.handleInputChange(event, 'confirmEmail')}
             value={this.state.confirmEmail} 
           />
           <Input
             placeholder="phoneNumber" 
-            onChange={({ target: { value } }) => this.setState({
-              phoneNumber: value,
-            })} 
+            onChange={(event) => this.handleInputChange(event, 'phoneNumber')}
             value={this.state.phoneNumber} 
           />
           <Input
             placeholder="Address" 
-            onChange={({ target: { value } }) => this.setState({
-              address: value,
-            })} 
+            onChange={(event) => this.handleInputChange(event, 'address')}
             value={this.state.address} 
           />
           <Input
             placeholder="Postcode" 
-            onChange={({ target: { value } }) => this.setState({
-              postcode: value,
-            })} 
+            onChange={(event) => this.handleInputChange(event, 'postcode')}
             value={this.state.postcode} 
           />
         </Layout>

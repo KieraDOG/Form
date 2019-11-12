@@ -21,58 +21,70 @@ export default class EnterYourDetails extends React.Component {
     super(props);
 
     this.state = {
-      name: '',
-      email: '',
-      confirmEmail: '',
-      phoneNumber: '',
-      address: '',
-      postcode: '',
+      formData: {
+        name: {
+          label: 'Name',
+          value: '',
+        },
+        email: {
+          label: 'Email',
+          value: '',
+        },
+        confirmEmail: {
+          label: 'Confirm Email',
+          value: '',
+        },
+        phoneNumber: {
+          label: 'Phone Number',
+          value: '',
+        },
+        address: {
+          label: 'Address',
+          value: '',
+        },
+        postcode: {
+          label: 'Postcode',
+          value: '',
+        },
+      }
     };
   }
 
   handleInputChange(event, key) {
     const { target: { value } } = event;
 
-    this.setState({
-      [key]: value,
+    this.setState((prevState) => {
+      return {
+        formData: {
+          ...prevState.formData,
+          [key]: {
+            ...prevState.formData[key],
+            value,
+          },
+        },
+      };
     });
   }
 
   render() {
+    const { formData } = this.state;
+
     return (
       <>
         <h2>Please input your details</h2>
         <Layout>
-          <Input
-            placeholder="Name" 
-            onChange={(event) => this.handleInputChange(event, 'name')}
-            value={this.state.name} 
-          />
-          <Input
-            placeholder="Email" 
-            onChange={(event) => this.handleInputChange(event, 'email')}
-            value={this.state.email} 
-          />
-          <Input
-            placeholder="Confirm Email" 
-            onChange={(event) => this.handleInputChange(event, 'confirmEmail')}
-            value={this.state.confirmEmail} 
-          />
-          <Input
-            placeholder="phoneNumber" 
-            onChange={(event) => this.handleInputChange(event, 'phoneNumber')}
-            value={this.state.phoneNumber} 
-          />
-          <Input
-            placeholder="Address" 
-            onChange={(event) => this.handleInputChange(event, 'address')}
-            value={this.state.address} 
-          />
-          <Input
-            placeholder="Postcode" 
-            onChange={(event) => this.handleInputChange(event, 'postcode')}
-            value={this.state.postcode} 
-          />
+          {Object.keys(formData).map((key) => {
+            const { label, value } = formData[key];
+
+            return (
+              <Input 
+                key={key}
+                placeholder={label}
+                value={value}
+                onChange={(event) => this.handleInputChange(event, key)}
+              />
+            )
+          })}
         </Layout>
       </>
     );

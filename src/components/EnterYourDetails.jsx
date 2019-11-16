@@ -1,15 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Input from './Input';
+import Input, { validator } from './Input';
 
 const Layout = styled.div`
   display: grid;
   grid-gap: 0.75rem;
   grid-template-columns: repeat(3, 1fr);
 `;
-
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-const MOBILE_REGEX = /^(04)\d{8}/;
 
 export default class EnterYourDetails extends React.Component {
   constructor(props) {
@@ -21,7 +18,7 @@ export default class EnterYourDetails extends React.Component {
           label: 'Name',
           value: '',
           validations: [{
-            validator: (value) => !!value,
+            validator: validator.isNotEmpty,
             message: 'Please input your name',
           }],
         },
@@ -29,10 +26,10 @@ export default class EnterYourDetails extends React.Component {
           label: 'Email',
           value: '',
           validations: [{
-            validator: (value) => !!value,
+            validator: validator.isNotEmpty,
             message: 'Please input your email',
           }, {
-            validator: (value) => EMAIL_REGEX.test(value),
+            validator: validator.isEmail,
             message: 'Please input a valid email',
           }],
         },
@@ -40,21 +37,24 @@ export default class EnterYourDetails extends React.Component {
           label: 'Confirm Email',
           value: '',
           validations: [{
-            validator: (value) => !!value,
+            validator: validator.isNotEmpty,
             message: 'Please input your confirm email',
           }, {
-            validator: (value) => EMAIL_REGEX.test(value),
-            message: 'Please input a valid confirmation email',
+            validator: validator.isEmail,
+            message: 'Please input a valid confirm email',
+          }, {
+            validator: validator.isIdentical,
+            message: 'confirm email does not match email'
           }],
         },
         phoneNumber: {
           label: 'Phone Number',
           value: '',
           validations: [{
-            validator: (value) => !!value,
+            validator: validator.isNotEmpty,
             message: 'Please input your phone number',
           }, {
-            validator: (value) => MOBILE_REGEX.test(value),
+            validator: validator.isMobile,
             message: 'Please input a valid phone number',
           }],
         },
@@ -62,7 +62,7 @@ export default class EnterYourDetails extends React.Component {
           label: 'Address',
           value: '',
           validations: [{
-            validator: (value) => !!value,
+            validator: validator.isNotEmpty,
             message: 'Please input your address',
           }],
         },
@@ -70,7 +70,7 @@ export default class EnterYourDetails extends React.Component {
           label: 'Postcode',
           value: '',
           validations: [{
-            validator: (value) => !!value,
+            validator: validator.isNotEmpty,
             message: 'Please input your postcode',
           }, {
             validator: (value) => /\d{4}/.test(value),

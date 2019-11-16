@@ -23,27 +23,19 @@ export default class Input extends React.Component {
     };
   }
 
-  getValidationMessage(validation) {
+  isValidationInvalid(validation) {
     const { value } = this.props;
     const { validator } = validation;
 
     let message;
 
     if (validator === 'isNotEmpty') {
-      const valid = !!value;
-
-      if (!valid) {
-        ({ message } = validation);
-      }
+      return !value;
     }
 
     if (validator === 'isEmail') {
       const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-      const valid = EMAIL_REGEX.test(value);
-
-      if (!valid) {
-        ({ message } = validation);
-      }
+      return !EMAIL_REGEX.test(value);
     }
 
     return message;
@@ -52,9 +44,9 @@ export default class Input extends React.Component {
   getValidationMessageFromValidations() {
     const { validations } = this.props;
 
-    const validationWithMessage = validations.find((validation) => !!this.getValidationMessage(validation) );
+    const invalidValidation = validations.find((validation) => this.isValidationInvalid(validation));
 
-    return validationWithMessage && validationWithMessage.message;
+    return invalidValidation && invalidValidation.message;
   }
 
 

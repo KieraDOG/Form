@@ -8,6 +8,9 @@ const Layout = styled.div`
   grid-template-columns: repeat(3, 1fr);
 `;
 
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const MOBILE_REGEX = /^(04)\d{8}/;
+
 export default class EnterYourDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +21,7 @@ export default class EnterYourDetails extends React.Component {
           label: 'Name',
           value: '',
           validations: [{
-            validator: 'isNotEmpty',
+            validator: (value) => !!value,
             message: 'Please input your name',
           }],
         },
@@ -26,10 +29,10 @@ export default class EnterYourDetails extends React.Component {
           label: 'Email',
           value: '',
           validations: [{
-            validator: 'isNotEmpty',
+            validator: (value) => !!value,
             message: 'Please input your email',
           }, {
-            validator: 'isEmail',
+            validator: (value) => EMAIL_REGEX.test(value),
             message: 'Please input a valid email',
           }],
         },
@@ -37,23 +40,29 @@ export default class EnterYourDetails extends React.Component {
           label: 'Confirm Email',
           value: '',
           validations: [{
-            validator: 'isNotEmpty',
-            message: 'Please input your confirmEmail',
+            validator: (value) => !!value,
+            message: 'Please input your confirm email',
+          }, {
+            validator: (value) => EMAIL_REGEX.test(value),
+            message: 'Please input a valid confirmation email',
           }],
         },
         phoneNumber: {
           label: 'Phone Number',
           value: '',
           validations: [{
-            validator: 'isNotEmpty',
-            message: 'Please input your phoneNumber',
+            validator: (value) => !!value,
+            message: 'Please input your phone number',
+          }, {
+            validator: (value) => MOBILE_REGEX.test(value),
+            message: 'Please input a valid phone number',
           }],
         },
         address: {
           label: 'Address',
           value: '',
           validations: [{
-            validator: 'isNotEmpty',
+            validator: (value) => !!value,
             message: 'Please input your address',
           }],
         },
@@ -61,8 +70,11 @@ export default class EnterYourDetails extends React.Component {
           label: 'Postcode',
           value: '',
           validations: [{
-            validator: 'isNotEmpty',
+            validator: (value) => !!value,
             message: 'Please input your postcode',
+          }, {
+            validator: (value) => /\d{4}/.test(value),
+            message: 'Please input a valid postcode',
           }],
         },
       }

@@ -8,19 +8,6 @@ const Layout = styled.div`
   grid-template-columns: repeat(3, 1fr);
 `;
 
-const getValidationsWithTarget = (validations, target) => {
-  return validations.map((validation) => {
-    if (validation.validator !== validator.isIdentical) {
-      return validation;
-    }
-
-    return {
-      ...validation,
-      target,
-    };
-  });
-}
-
 export default class EnterYourDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -53,11 +40,14 @@ export default class EnterYourDetails extends React.Component {
             validator: validator.isNotEmpty,
             message: 'Please input your confirm email',
           }, {
-          //   validator: validator.isEmail,
-          //   message: 'Please input a valid confirm email',
-          // }, {
+            validator: validator.isEmail,
+            message: 'Please input a valid confirm email',
+          }, {
             validator: validator.isIdentical,
             message: 'confirm email does not match email',
+            options: {
+              getTarget: () => this.state.formData.email.value,
+            },
           }],
         },
         phoneNumber: {
@@ -90,33 +80,34 @@ export default class EnterYourDetails extends React.Component {
             message: 'Please input a valid postcode',
           }],
         },
-      }
+        password: {
+          label: 'Password',
+          type: 'password',
+          value: '',
+          validations: [{
+            validator: validator.isNotEmpty,
+            message: 'Please input your password',
+          }],
+        },
+        confirmPassword: {
+          label: 'Confirm password',
+          type: 'password',
+          value: '',
+          validations: [{
+            validator: validator.isNotEmpty,
+            message: 'Please input your confirm password',
+          }, {
+            validator: validator.isIdentical,
+            message: 'NOT MATCH',
+            options: {
+              getTarget: () => this.state.formData.password.value,
+            },
+          }],
+        },
+      },
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  updateIdenticalTargetWithSource = (prevState, source, target) => {
-    if (this.onValueChange(prevState, source)) {
-      this.setState((thisPrevState) => {
-        const validationsWithNewTarget = getValidationsWithTarget(thisPrevState[target].validations, thisPrevState[source].value)
-  
-        return {
-          formData: {
-            ...thisPrevState.formData,
-            [target]: {
-              ...thisPrevState[target],
-              validations: validationsWithNewTarget,
-            },
-          },
-        };
-      })
-    }  
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    this.updateIdenticalTargetWith(prevState, 'email', 'confirmEmail');
-    // this.updateIdenticalTargetWith(prevState, 'password', 'confirmPassword');
   }
   
   handleInputChange(key) {
@@ -145,11 +136,12 @@ export default class EnterYourDetails extends React.Component {
         <h2>Please input your details</h2>
         <Layout>
           {Object.keys(formData).map((key) => {
-            const { label, value, validations } = formData[key];
+            const { label, value, validations, type } = formData[key];
 
             return (
               <Input 
                 key={key}
+                type={type}
                 placeholder={label}
                 value={value}
                 validations={validations}

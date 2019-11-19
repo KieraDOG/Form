@@ -25,9 +25,9 @@ export default class Input extends React.Component {
 
   isValidationInvalid(validation) {
     const { value } = this.props;
-    const { validator, target } = validation;
+    const { validator, options } = validation;
 
-    const invalid = !validator(value, target);
+    const invalid = !validator(value, options);
 
     return invalid;
   };

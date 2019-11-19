@@ -5,4 +5,5 @@ export default {
   isNotEmpty: (value) => !!value,
   isEmail: (value) => EMAIL_REGEX.test(value),
   isMobile: (value) => MOBILE_REGEX.test(value),
+  isIdentical: (value, emailValue) => value === emailValue,
 };
